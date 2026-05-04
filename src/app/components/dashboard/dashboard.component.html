@@ -1,0 +1,134 @@
+<h1 class="flex text-3xl justify-between p-10 bg-blue-500 text-white"> Bienvenido a la página consumida de Rick And Morty  </h1>
+
+<!-- <div class="p-6">
+
+    <h1>Personajes</h1>
+
+    <div class="grid grid-cols-4 gap-4">
+        <div *ngFor="let c of characters" class="bg-white p-4 rounded shadow">
+
+            <img [src]="c.image" class="w-full rounded mb-2"/>
+
+            <h2 class="font-bold">{{  c.name  }}</h2>
+            <p>{{ c.status }}</p>
+            <p>{{ c.species }}</p>
+
+        </div>
+    </div>
+</div> -->
+
+<div class="p-6 bg-gray-100 max-w-6xl mx-auto">
+
+    <div class="flex justify-between mb-4">
+        <input [(ngModel)]="search" placeholder="Buscar personaje" class="p-2 border rounded w-1/3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+        <button (click)="openCreateModal()" class="hover:bg-blue-600 transition text-black px-4 py-2 rounded" >
+            Añadir
+        </button>
+    </div>
+
+    <table class="w-full bg-white rounded shadow overflow-hidden text-sm">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-2">ID</th>
+                <th class="p-2">Name</th>
+                <th class="p-2">Status</th>
+                <th class="p-2">Species</th>
+                <th class="p-2">Gender</th>
+                <!-- <th class="p-2">Actions</th> -->
+            </tr>
+        </thead>
+            
+        <tbody>
+            <tr *ngFor="let c of filteredCharacters()" class="hover:bg-gray-100 transition">
+                
+                <td class="p-2">{{ c.id }}</td>
+                <td class="p-2">{{ c.name }}</td>
+                <td class="p-2">
+                    <span 
+                        [ngClass]="{
+                        'text-green-700 font-bold': c.status === 'Alive',
+                        'text-red-700 font-bold': c.status === 'Dead',
+                        'text-gray-500 font-bold': c.status === 'unknown'
+                    }">
+                        {{ c.status }}
+                    </span>
+                </td>
+                <td class="p-2">{{ c.species }}</td>
+                <td class="p-2">{{ c.gender }}</td>
+
+                <!-- <td class="p-2 space-x-2">
+                    <button (click)="openEditModal(c)"class="bg-yellow-400 px-2 py-1 rounded"> Editar </button>
+                    <button (click)="deleteUserById(c._id)"class="bg-red-500 text-white px-2 py-1 rounded"> Eliminar </button>
+                </td> -->
+
+        </tbody>
+    </table>
+        <div class="p-10 rounded border-t">
+         <h1 class="text-2xl bg-white p-6 text-gray-700 borber-b">Usuarios en esta página</h1>
+        </div>
+    <table class="w-full bg-white rounded shadow text-sm">
+            <thead class="bg-gray-200">
+            <tr>
+                <th class="p-2">ID</th>
+                <th class="p-2">Nombre</th>
+                <th class="p-2">Correo</th>
+                <th class="p-2">Edad</th>
+                <th class="p-2">Acciones</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of users" class="hover:bg-gray-100 transition">
+                    <td  class="p-2">{{ u._id }}</td>
+                    <td  class="p-2">{{ u.name }}</td>
+                    <td  class="p-2">{{ u.email }}</td>
+                    <td  class="p-2">{{ u.age }}</td>
+                        
+                        <td class="p-2 space-x-2">    
+                            <button (click)="openEditModal(u)" class="hover:bg-yellow-500 transition  text-sm px-2 py-1 rounded">Editar</button>
+                            <button (click)="deleteUserById(u._id) "class="hover:bg-red-500 transition text-sm px-2 py-1 rounded">Eliminar</button>
+                        </td>
+                </tr>
+            </tbody>
+    </table>
+
+     <button (click)="logout()" class="bg-red-500 text-white p-2 mt-4 rounded">
+    Cerrar sesión
+</button>
+
+</div>
+
+
+<div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+
+    <div class="bg-white p-6 rounded-xl shadow-lg bg-opacity-60 backdrop-blur-sm">
+        <h2 class="text-xl mb-4"> Agregar Usuarios </h2>
+
+        <input  [(ngModel)]="formUser.name" placeholder="Nombre" 
+        class="w-full mb-2 p-2 border rounded"/>
+
+
+        <input [(ngModel)]="formUser.email" placeholder="Email" 
+        class="w-full mb-2 p-2 border rounded"/>
+
+
+        <input [(ngModel)]="formUser.password" placeholder="Contraseña" 
+        class="w-full mb-2 p-2 border rounded"/>
+
+
+        <input [(ngModel)]="formUser.age" type="number" placeholder="Edad" 
+        class="w-full mb-2 p-2 border rounded"/>
+
+        <div class="flex justify-between">
+            <button (click)="editMode ? updateUserData() : addUser()" class="bg-green-500 text-white px-3 py-1 rounded"> Guardar 
+            </button>
+
+            <button (click)="showModal = false" class="bg-gray-400 px-3 py-1 rounded"> Cancelar 
+            </button>
+        </div>
+    </div>
+
+   
+</div>
+
