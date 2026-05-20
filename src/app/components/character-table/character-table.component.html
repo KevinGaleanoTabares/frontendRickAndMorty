@@ -1,0 +1,31 @@
+<table class="w-full bg-white rounded shadow overflow-hidden text-sm">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-2">ID</th>
+                <th class="p-2">Name</th>
+                <th class="p-2">Status</th>
+                <th class="p-2">Species</th>
+                <th class="p-2">Gender</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let c of filteredCharacters()" class="hover:bg-gray-100 transition">
+
+                <td class="p-2">{{ c.id }}</td>
+                <td class="p-2">{{ c.name }}</td>
+                <td class="p-2">
+                    <span [ngClass]="{
+                        'text-green-700 font-bold': c.status === 'Alive',
+                        'text-red-700 font-bold': c.status === 'Dead',
+                        'text-gray-500 font-bold': c.status === 'unknown'
+                    }">
+                        {{ c.status }}
+                    </span>
+                </td>
+                <td class="p-2">{{ c.species }}</td>
+                <td class="p-2">{{ c.gender }}</td>
+
+        </tbody>
+    </table>
+    

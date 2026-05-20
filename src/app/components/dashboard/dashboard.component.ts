@@ -1,23 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { getCharacters} from 'src/app/services/api.service';  
+import { getCharacters } from 'src/app/services/api.service';
 import { registerUser } from 'src/app/services/api.service'
 import { deleteUser } from 'src/app/services/api.service';
 import { getUsers } from 'src/app/services/api.service';
 import { updateUser } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
-
-
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
 
   users: any[] = [];
   showModal: boolean = false;
-  editMode: boolean = false; 
+  showProfileModal: boolean = false;
+  selectedUser: any = null;
+  randomImage: string = '';
+  editMode: boolean = false;
   characters: any[] = [];
 
 
@@ -29,7 +30,10 @@ export class DashboardComponent implements OnInit {
     _id: ''
   };
 
-  
+    formatDate(date:string){
+    return DateTime.fromISO(date).toFormat('dd/MM/yyyy');
+  }
+
   async loadUsers() {
     try {
       const res = await getUsers();
@@ -39,11 +43,9 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  
-
   constructor(private router: Router) { }
 
-  async ngOnInit()  {
+  async ngOnInit() {
 
     this.loadUsers();
 
@@ -53,100 +55,92 @@ export class DashboardComponent implements OnInit {
       this.characters = res.data.results;
     } catch (error) {
       console.error(error);
+    }
   }
-  }
-
 
   newUser = {
-  name: '',
-  email: '',
-  password: '',
-  age: 0
+    name: '',
+    email: '',
+    password: '',
+    age: 0
   }
-
-
-  search: string = '' 
+// ------------------------------------------------------------------------------------------------------
+  search: string = ''
+  receiveSearch(text:string){
+    this.userSearch = text;
+  }
+  userSearch = ''; /* El término de búsqueda que se usará para filtrar los usuarios */
   id: string = '';
 
-  filteredCharacters() {
-    return this.characters.filter((c: any) => {
-
-      const text = this.search.toLowerCase();
-
-      return (
-    c.name.toLowerCase().includes(text) ||
-    c.status.toLowerCase().includes(text) ||
-    c.species.toLowerCase().includes(text) ||
-    c.gender.toLowerCase() === text ||
-    c.id.toString().includes(text) 
-  );
-});
-
-}
-
   async addUser() {
-      await registerUser(this.formUser);
-      
+    await registerUser(this.formUser);
+
+    this.loadUsers();
+    this.showModal = false;
+  }
+// --------------------------------------------------------------------------------------------------------
+ characterSearch: string = '';
+
+ receiveCharacterSearch(text:string) {
+  this.characterSearch = text;
+ }
+
+
+  async deleteUserById(id: string) {
+    try {
+      await deleteUser(id);
+
+      alert('Usuario eliminado');
+
+      //Refrescar usuarios automaticamente
       this.loadUsers();
-      this.showModal = false;
+    } catch (error: any) {
+      alert(error.response?.data?.message || 'Error');
+    }
   }
 
+  async updateUserData() {
+    try {
+      await updateUser(this.formUser._id, this.formUser);
 
-    async deleteUserById(id: string) {
-      try {
-        await deleteUser(id);
+      this.loadUsers();
+      this.showModal = false;  // Refrescar usuarios
 
-        alert('Usuario eliminado');
-
-        //Refrescar usuarios automaticamente
-        this.loadUsers();
-      } catch (error: any) {
-        alert(error.response?.data?.message || 'Error');
-      }
+    } catch (error: any) {
+      alert(error.response?.data?.message || 'Error');
     }
+  }
 
-    async updateUserData() {
-      try {
-        await updateUser(this.formUser._id, this.formUser);
-        console.log("DESPUÉS DEL PUT");
+  openCreateModal() {
+    this.editMode = false;
 
-        console.log(localStorage.getItem('token'));
+    this.formUser = {
+      name: '',
+      email: '',
+      password: '',
+      age: 0,
+      _id: ''
+    };
 
-        this.loadUsers();
-        this.showModal = false;  // Refrescar usuarios
-        
-      } catch (error: any) {
-        alert(error.response?.data?.message || 'Error');
-      }
-    }
+    this.showModal = true;
+  }
 
-    openCreateModal() {
-      this.editMode = false;
+  openEditModal(user: any) {
+    this.editMode = true;
+    this.formUser = { ...user };
+    this.showModal = true;
+  }
 
-      this.formUser = {
-        name: '',
-        email: '',
-        password: '',
-        age: 0,
-        _id: ''
-      };
+  openProfileModal(user:any) {
 
-      this.showModal = true;
-    }
+    this.selectedUser=user;
+    this.randomImage = user.avatar;
+    this.showProfileModal = true;
+  }
 
-    openEditModal(user:any) {
-      this.editMode = true;
-      this.formUser = { ...user };
-      this.showModal = true;
-    }
-    logout() {
-  localStorage.removeItem('token');
-  alert('Sesión cerrada');
-  this.router.navigate(['/register'])
+  logout() {
+    localStorage.removeItem('token');
+    alert('Sesión cerrada');
+    this.router.navigate(['/login'])
   }
 }
-
-  
-
-
-

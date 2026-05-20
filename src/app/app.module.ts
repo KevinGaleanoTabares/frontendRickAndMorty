@@ -7,6 +7,10 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UserSearchComponent } from './components/user-search/user-search.component';
+import { CharacterSearchComponent } from './components/character-search/character-search.component';
+import { CharacterTableComponent } from './components/character-table/character-table.component';
+import { UserTableComponent } from './components/user-table/user-table.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +18,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     RegisterComponent,
     LoginComponent,
     DashboardComponent,
+    UserSearchComponent,
+    UserTableComponent,
+    CharacterSearchComponent,
+    CharacterTableComponent
   ],
   imports: [
     BrowserModule,

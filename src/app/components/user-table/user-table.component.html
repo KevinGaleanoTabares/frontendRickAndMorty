@@ -1,0 +1,32 @@
+<table class="w-full bg-white rounded shadow text-sm">
+
+    <thead class="bg-gray-200">
+        <tr>
+            <th class="p-2">ID</th>
+            <th class="p-2">Nombre</th>
+            <th class="p-2">Correo</th>
+            <th class="p-2">Edad</th>
+            <th class="p-2">Creado</th>
+            <th class="p-2">Acciones</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let u of filteredUsers()" class="hover:bg-gray-100 transition">
+            <td class="p-2">{{ u._id }}</td>
+            <td class="p-2">{{ u.name }}</td>
+            <td class="p-2">{{ u.email }}</td>
+            <td class="p-2">{{ u.age }}</td>
+            <td class="p-2">{{ formatDate(u.createdAt) }}</td>
+
+            <td class="p-2 space-x-2">
+                <button (click)="editUser.emit(u)"
+                    class="hover:bg-yellow-500 transition  text-sm px-2 py-1 rounded">Editar</button>
+                <button (click)="viewUser.emit(u)" class="btn-primary"> Ver </button>
+                <button (click)="deleteUser.emit(u._id) "
+                    class="hover:bg-red-500 transition text-sm px-2 py-1 rounded">Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
