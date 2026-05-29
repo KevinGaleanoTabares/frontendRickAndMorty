@@ -1,0 +1,139 @@
+<app-paginator></app-paginator>
+
+<div class="p-4 sm:p-6 bg-gray-100 min-h-screen">
+
+    <h1 class="text-2xl sm:text-3xl mb-6 font-bold">
+        Usuarios
+    </h1>
+
+    <div *ngIf="message" class="mb-4 p-3 rounded text-white" [ngClass]="{
+  'bg-green-500': messageType === 'success',
+  'bg-red-500': messageType === 'error'
+}">
+
+        {{ message }}
+
+    </div>
+
+    <!-- Por que en la 11 es sin event y en la 17 si es con $event -->
+    <app-user-search (search)="receiveSearch($event)" (addUser)="openCreateModal()">
+    </app-user-search>
+
+    <p class="mb-2 font-bold text-lg sm:text-xl">Buscar usuarios por fecha de creacion </p>
+    <div class="flex flex-col sm:flex-row gap-4 mb-4">
+    <input
+    type="date"
+    [(ngModel)]="startDate"
+    class="border p-2 rounded w-full sm:w-auto text-sm sm:text-base">
+
+    <input
+    type="date"
+    [(ngModel)]="endDate"
+    class="border p-2 rounded w-full sm:w-auto text-sm sm:text-base">
+
+</div>
+
+    <p class="mb-4 text-sm sm:text-base"><strong>Usuarios Totales: </strong> <span class="text-green-500 font-bold">{{ users.length }}
+        </span></p>
+
+    <app-user-table [users]="filteredUsersByDate()" [userSearch]="userSearch" (editUser)="openEditModal($event)"
+        (deleteUser)="deleteUserById($event)" (viewUser)="openProfileModal($event)">
+    </app-user-table>
+</div>
+
+<div *ngIf="showProfileModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+
+    <div class="bg-white p-6 rounded shadow w-full max-w-sm sm:max-w-md">
+
+        <img [src]="randomImage" class="w-24 sm:w-32 h-24 sm:h-32 rounded-full mx-auto mb-4">
+
+        <h2 class="text-center text-xl sm:text-2xl mb-4">
+            {{ selectedUser.name }}
+        </h2>
+
+        <p>
+            Correo:
+            {{ selectedUser.email }}
+        </p>
+
+        <p>
+            Edad:
+            {{ selectedUser.age }}
+        </p>
+
+        <button (click)="showProfileModal = false" class="bg-red-500 text-white px-4 py-2 rounded mt-4 w-full text-sm sm:text-base hover:bg-red-600 transition">
+
+            Cerrar
+
+        </button>
+
+    </div>
+
+</div>
+
+<div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+
+    <div class="bg-white p-6 rounded shadow w-full max-w-sm sm:max-w-md">
+
+        <h2 class="text-xl sm:text-2xl mb-4">
+
+            {{ editMode ? 'Editar Usuario' : 'Crear Usuario' }}
+
+        </h2>
+
+        <form [formGroup]="userForm">
+
+            <input formControlName="name" placeholder="Nombre" class="w-full mb-2 p-2 border rounded text-sm sm:text-base" />
+
+            <div *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid">
+                <small class="text-red-500 text-xs sm:text-sm">
+                    Mínimo 3 caracteres
+                </small>
+            </div>
+
+            <input formControlName="email" placeholder="Correo" class="w-full mb-2 p-2 border rounded text-sm sm:text-base" />
+
+            <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid">
+                <small class="text-red-500 text-xs sm:text-sm">
+                    Correo inválido
+                </small>
+            </div>
+
+            <input formControlName="password" type="password" placeholder="Contraseña"
+                class="w-full mb-2 p-2 border rounded text-sm sm:text-base" />
+
+            <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid">
+                <small class="text-red-500 text-xs sm:text-sm">
+                    Debe contener mayúscula, minúscula, número y carácter especial
+                </small>
+            </div>
+
+            <input formControlName="age" type="number" placeholder="Edad" class="w-full mb-3 p-2 border rounded text-sm sm:text-base" />
+
+            <div *ngIf="userForm.get('age')?.touched && userForm.get('age')?.invalid">
+                <small class="text-red-500 text-xs sm:text-sm">
+                    La edad debe estar entre 18 y 100
+                </small>
+            </div>
+
+        </form>
+
+        <div class="flex flex-col sm:flex-row gap-2 sm:justify-between">
+
+            <button (click)="editMode ? updateUserData() : addUser()" class="bg-green-500 text-white px-4 py-2 rounded text-sm sm:text-base hover:bg-green-600 transition">
+
+                Guardar
+
+            </button>
+
+            <button (click)="showModal = false" class="bg-gray-500 text-white px-4 py-2 rounded text-sm sm:text-base hover:bg-gray-600 transition">
+
+                Cancelar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

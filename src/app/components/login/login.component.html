@@ -1,21 +1,49 @@
-<div class="flex justify-center items-center h-screen bg-gray-100">
-  <div class="bg-white p-6 rounded-lg shadow-md w-80">
-    <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
+<div class="flex justify-center items-center min-h-screen bg-gray-100 p-4">
 
-    <input [(ngModel)]="user.email" name="email" placeholder="Correo"
-      class="w-full mb-2 p-2 border rounded"/>
+  <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-sm sm:max-w-md">
+    <h2 class="text-xl sm:text-2xl font-bold mb-4 text-center">Login</h2>
 
-    <input [(ngModel)]="user.password" name="password" type="password" placeholder="Contraseña"
-      class="w-full mb-4 p-2 border rounded"/>
+    <form 
+    [formGroup]="loginForm"
+    (ngSubmit)="login()">
+  
+    <input formControlName="email"
+    placeholder="Correo"
+    class="w-full mb-2 p-2 border rounded text-sm sm:text-base"/>
 
-    <button (click)="login()"
-      class="w-full bg-green-500 text-white p-2 rounded">
+    <div *ngIf="loginForm.get('email')?.touched && 
+    loginForm.get('email')?.invalid">
+    
+    <small class="text-red-500 text-xs sm:text-sm"> Correo inválido </small>
+
+    </div>
+
+    <div class="relative">
+      <input [type]="showPassword ? 'text' : 'password'"
+      formControlName="password"
+      placeholder="Contraseña"
+      class="w-full mb-2 p-2 border rounded text-sm sm:text-base"/>
+      <button type="button" (click)="togglePassword()"
+      class="absolute right-2 top-2"> 👁 </button>
+    </div>
+
+    <div *ngIf="loginForm.get('password')?.touched &&
+    loginForm.get('password')?.invalid">
+    
+    <small class="text-red-500 text-xs sm:text-sm"> La contraseña es obligatoria </small>
+  
+    </div>
+
+    <button type="submit" class="w-full bg-green-500 text-white p-2 rounded mt-3 text-sm sm:text-base hover:bg-green-600 transition">
       Iniciar sesión
     </button>
 
-    <p class="text-center mt-2">
-        ¿No tienes cuenta?
-        <span class="text-blue-500 cursor-pointer" (click)="goRegister()">Registrate</span>
+    </form>
+
+    <p class="text-center mt-2 text-sm sm:text-base">
+      ¿No tienes cuenta?
+      <span class="text-blue-500 cursor-pointer hover:underline" (click)="goRegister()"> Regístrate</span>
     </p>
+
   </div>
 </div>

@@ -1,0 +1,25 @@
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-10">
+        
+        <div *ngFor="let c of characters" class="bg-white p-3 sm:p-4 rounded shadow hover:shadow-lg transition">
+            
+            <img [src]="c.image" class="w-full h-32 sm:h-40 object-cover rounded mb-2" />
+            <h2 class="font-bold text-sm sm:text-base line-clamp-2">{{ c.name }}</h2>
+            <p class="text-xs sm:text-sm">The character is {{ c.status }}</p>
+            <p class="text-xs sm:text-sm">
+                They belong to <span [ngClass]="{
+                                    'text-green-700 font-bold': c.species === 'Human',
+                                    'text-red-700 font-bold': c.species === 'Alien'
+                                    }">
+                    {{ c.species }}</span>
+                specie
+            </p>
+        </div>
+        
+    </div>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 mt-6 mb-6 flex-wrap">
+
+        <button (click)="prevPage()" class="bg-blue-500 text-white px-3 sm:px-4 py-2 rounded-sm text-sm sm:text-base hover:bg-blue-600 transition"> Anterior </button>
+        <span class="font-bold text-sm sm:text-base"> Pagina {{  currentPage  }} de {{  totalPages  }} </span>
+        <button (click)="nextPage()" class="bg-blue-500 text-white px-3 sm:px-4 py-2 rounded-sm text-sm sm:text-base hover:bg-blue-600 transition"> Siguiente </button>
+
+    </div>

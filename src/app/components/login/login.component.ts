@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { loginUser } from 'src/app/services/api.service';  //
 import { Router } from '@angular/router';
 
@@ -9,35 +10,69 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  user = {
-    email: '',
-    password: ''
-  };
+  loginForm!: FormGroup;
 
-  async login() {
-    try {
-      const res = await loginUser(this.user);
-      console.log(res.data);
-      
-      //Guardar el token
-      localStorage.setItem('token', res.data.token);
-
-      this.router.navigate(['/dashboard']);
-    } catch (error: any) {
-      alert(error.response?.data?.message || 'Error');
-    }
-
-  }
+  showPassword = false;
   
-  goRegister() {
-      this.router.navigate(['/register']);
-    }
 
-
-
-  constructor(private router: Router) { }
+  constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
+
+    this.loginForm = this.fb.group({
+
+      email: [
+        '',
+      [
+        Validators.required,
+        Validators.email
+      ]
+    ],
+
+    password: [
+      '',
+      [
+        Validators.required
+      ]
+    ]
+
+    });
+
   }
+
+  async login() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    try {
+
+      const res = await loginUser(this.loginForm.value);
+
+      localStorage.setItem('token', res.data.token); //
+
+      this.router.navigate(['/characters']);
+
+    } catch (error:any) {
+
+      alert(error.response?.data?.message || 'Error');
+
+    }
+
+  }
+
+  togglePassword() {
+
+    this.showPassword = !this.showPassword;
+
+  }
+
+  goRegister() {
+
+    this.router.navigate(['/register'])
+
+  }
+
 
 }

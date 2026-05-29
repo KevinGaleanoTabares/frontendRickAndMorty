@@ -1,32 +1,65 @@
-<table class="w-full bg-white rounded shadow text-sm">
+<div class="overflow-x-auto">
+<table class="w-full bg-white rounded shadow text-xs sm:text-sm">
 
     <thead class="bg-gray-200">
         <tr>
-            <th class="p-2">ID</th>
-            <th class="p-2">Nombre</th>
-            <th class="p-2">Correo</th>
-            <th class="p-2">Edad</th>
-            <th class="p-2">Creado</th>
-            <th class="p-2">Acciones</th>
+            <th class="p-2 text-left hidden lg:table-cell">ID</th>
+            <th class="p-2 text-left">Nombre</th>
+            <th class="p-2 text-left hidden sm:table-cell">Correo</th>
+            <th class="p-2 text-left hidden md:table-cell">Edad</th>
+            <th class="p-2 text-left hidden lg:table-cell">Creado</th>
+            <th class="p-2 text-left">Acciones</th>
 
         </tr>
     </thead>
 
     <tbody>
-        <tr *ngFor="let u of filteredUsers()" class="hover:bg-gray-100 transition">
-            <td class="p-2">{{ u._id }}</td>
-            <td class="p-2">{{ u.name }}</td>
-            <td class="p-2">{{ u.email }}</td>
-            <td class="p-2">{{ u.age }}</td>
-            <td class="p-2">{{ formatDate(u.createdAt) }}</td>
+        <tr *ngFor="let u of filteredUsers()" class="hover:bg-gray-100 transition border-b">
+            <td class="p-2 hidden lg:table-cell text-xs">{{ u._id }}</td>
+            <td class="p-2 font-semibold">{{ u.name }}</td>
+            <td class="p-2 hidden sm:table-cell text-xs">{{ u.email }}</td>
+            <td class="p-2 hidden md:table-cell text-xs">{{ u.age }}</td>
+            <td class="p-2 hidden lg:table-cell text-xs">{{ formatDate(u.createdAt) }}</td>
 
-            <td class="p-2 space-x-2">
+            <td class="p-2 space-x-1 flex flex-wrap gap-1">
                 <button (click)="editUser.emit(u)"
-                    class="hover:bg-yellow-500 transition  text-sm px-2 py-1 rounded">Editar</button>
-                <button (click)="viewUser.emit(u)" class="btn-primary"> Ver </button>
-                <button (click)="deleteUser.emit(u._id) "
-                    class="hover:bg-red-500 transition text-sm px-2 py-1 rounded">Eliminar</button>
+                    class="hover:bg-yellow-500 transition text-xs sm:text-sm px-2 py-1 rounded hover:text-white" title="Editar">Editar</button>
+                <button (click)="viewUser.emit(u)" class="hover:bg-blue-500 transition text-xs sm:text-sm px-2 py-1 rounded hover:text-white" title="Ver">Ver</button>
+                <button (click)="openModalDelete(u._id)" class="hover:bg-red-500 transition text-xs sm:text-sm px-2 py-1 rounded hover:text-white" title="Eliminar">Eliminar</button>
             </td>
         </tr>
     </tbody>
 </table>
+</div>
+
+<div *ngIf="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+
+    <div class="bg-white p-6 rounded shadow w-full max-w-sm sm:max-w-md">
+
+        <h2 class="text-lg sm:text-xl font-bold mb-4">
+            Confirmación
+        </h2>
+
+        <p class="mb-4 text-sm sm:text-base">
+            ¿Está seguro de que desea eliminar usuario?
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-end gap-3">
+
+            <button (click)="cancelShowModal()" class="bg-gray-500 text-white px-4 py-2 rounded text-sm sm:text-base hover:bg-gray-600 transition">
+
+                Cancelar
+
+            </button>
+
+            <button (click)="confirmDeleteUser()" class="bg-red-500 text-white px-4 py-2 rounded text-sm sm:text-base hover:bg-red-600 transition">
+
+                Confirmar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,30 +1,79 @@
-<div class="flex justify-center items-center h-screen bg-gray-100">
-    <div class="bg-white p-6 rounded-lg shadow-md w-80"> 
-        <h2 class="text-2xl font-bold mb-4 text-center"> Registro  </h2>
+<div class="flex justify-center items-center min-h-screen bg-gray-100 p-4">
 
-        <input [(ngModel)]="user.name" name="name" placeholder="Nombre"
-        class="w-full mb-2 p-2 border rounded"/>
+    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-sm sm:max-w-md">
+
+        <h2 id="register-title" class="text-xl sm:text-2xl font-bold mb-4 text-center">
+
+            Registro
+
+        </h2>
+
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+            <input id="register-name" formControlName="name" placeholder="Nombre" class="w-full mb-2 p-2 border rounded text-sm sm:text-base"/>
+
+            <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid">
+                <small class="text-red-500 text-xs sm:text-sm">
+
+                    Solo letras permitidas
+
+                </small>
+
+            </div>
+
+            <input id="register-email" formControlName="email" placeholder="Correo" class="w-full mb-2 p-2 border rounded text-sm sm:text-base"/>
+
+            <div *ngIf=" registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+                <small class="text-red-500 text-xs sm:text-sm">
+
+                    Correo inválido
+
+                </small>
+
+            </div>
+
+            <div class="relative">
+                <input id="register-password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Contraseña" class="w-full mb-2 p-2 border rounded text-sm sm:text-base"/>
+                <button type="button" (click)="togglePassword()" class="absolute right-2 top-2 text-sm">👁</button>
+            </div>
+
+            <div *ngIf=" registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+                <small class="text-red-500 text-xs sm:text-sm">
+
+                    Debe tener mayúscula,
+                    minúscula,
+                    número
+                    y símbolo
+
+                </small>
+
+            </div>
+
+            <input id="register-age" type="number" formControlName="age" placeholder="Edad" class="w-full mb-2 p-2 border rounded text-sm sm:text-base"/>
+
+            <div *ngIf="registerForm.get('age')?.touched && registerForm.get('age')?.invalid">
+                <small class="text-red-500 text-xs sm:text-sm">
+
+                    Edad inválida, debe ser entre 18 y 100
+
+                </small>
+
+            </div>
+
+            <button id="register-button" type="submit" class="w-full bg-blue-500 text-white p-2 rounded mt-3 text-sm sm:text-base hover:bg-blue-600 transition">
+                Registrarse
+            </button>
+
+        </form>
 
 
-        <input [(ngModel)]="user.email" name="email" placeholder="Correo"
-        class="w-full mb-2 p-2 border rounded"/>
-
-
-        <input [(ngModel)]="user.password" name="password" placeholder="Contraseña"
-        class="w-full mb-2 p-2 border rounded"/>
-
-
-        <input [(ngModel)]="user.age" name="age" placeholder="Edad"
-        class="w-full mb-2 p-2 border rounded"/>
-
-        <button (click)="register()"
-        class="w-full bg-blue-500 text-white p-2 rounded">
-        Registrarse
-        </button>
-
-        <p class="text-center mt-2">
+        <p class="text-center mt-2 text-sm sm:text-base">
             ¿Ya tienes cuenta?
-            <span class="text-blue-500 cursor-pointer" (click)="goLogin()">Login</span>
+            <span id="register-login" class="text-blue-500 cursor-pointer hover:underline" (click)="goLogin()">
+                Login
+            </span>
         </p>
+
     </div>
+
 </div>

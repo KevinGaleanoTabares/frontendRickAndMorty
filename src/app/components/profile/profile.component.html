@@ -1,0 +1,36 @@
+<app-paginator></app-paginator>
+
+<div class="p-4 sm:p-10 bg-gray-100 min-h-screen flex justify-center items-center">
+
+    <div class="bg-white p-6 rounded shadow w-full max-w-sm sm:max-w-md">
+
+        <h1 class="text-2xl sm:text-3xl mb-6 font-bold text-center">
+            Mi Perfil
+        </h1>
+
+        <img [src]="randomImage" class="w-28 sm:w-40 h-28 sm:h-40 rounded-full mx-auto mb-6" />
+
+        <p class="mb-2 text-sm sm:text-base">
+            <strong>Nombre:</strong>
+            {{  user?.name  }}
+        </p>
+
+        <p class="mb-2 text-sm sm:text-base">
+            <strong>Email:</strong>
+            {{  user?.email  }}
+        </p>
+
+        <p class="mb-2 text-sm sm:text-base">
+            <strong>Edad:</strong>
+            {{  user?.age  }}
+        </p>
+
+        <p class="mb-2 text-sm sm:text-base">
+            <strong>ID:</strong>
+            {{  user?._id  }}
+        </p>
+        
+
+    </div>
+
+</div>

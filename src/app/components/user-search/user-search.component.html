@@ -1,9 +1,9 @@
-<div class="flex items-center gap-6 mb-6 w-full">
-<input [(ngModel)]= "searchText" placeholder="Buscar Usuario" class="p-3 border rounded-lg flex-1 shadow-md text-base focus:outline-none focus:ring-2 focus:ring-blue-400"/>
-    <button (click)="searchUser()" class="bg-blue-500 hover:bg-blue-600 transition text-white px-6 py-3 rounded-lg shadow-md">
+<div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 mb-6 w-full">
+<input [(ngModel)]= "searchText" placeholder="Buscar Usuario" class="p-3 border rounded-lg flex-1 shadow-md text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+    <button (click)="searchUser()" class="bg-blue-600 hover:bg-blue-700 transition text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md shadow-md text-sm sm:text-base whitespace-nowrap">
         Buscar
     </button>
-    <button (click)="openModal()" class="bg-green-500 hover:bg-green-600 transition text-white px-6 py-3 rounded-lg shadow-md">
+    <button (click)="openModal()" class="bg-green-600 hover:bg-green-700 transition text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md shadow-md text-sm sm:text-base whitespace-nowrap">
             Añadir Usuario
         </button>
 </div>

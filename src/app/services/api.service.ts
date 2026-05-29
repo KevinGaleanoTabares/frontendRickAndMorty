@@ -3,11 +3,11 @@ import axios from 'axios';
 const API = 'http://localhost:3000';
 
 export const registerUser = (data:any) => {
-    return axios.post(`${API}/register`, data);
+    return axios.post(`${API}/auth/register`, data);
 };
 
 export const loginUser = (data:any) => {
-    return axios.post(`${API}/login`, data);
+    return axios.post(`${API}/auth/login`, data);
 }
 
 export const getUsers = () => {
@@ -19,8 +19,9 @@ export const getUsers = () => {
     });
 };
 
-export const getCharacters = () => {
-    return axios.get('https://rickandmortyapi.com/api/character');
+export const getCharacters = (page:number = 1) => {
+
+    return axios.get(`https://rickandmortyapi.com/api/character?page=${page}`);
 }
 
 export const deleteUser = (id: string) => {
@@ -47,4 +48,13 @@ export const updateUser = (id: string, data: any) => {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         }
 });
+};
+
+export const getProfile = () => {
+
+    return axios.get(`${API}/auth/profile`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    });
 };

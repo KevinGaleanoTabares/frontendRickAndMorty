@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Input, Output, EventEmitter } from '@angular/core';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-user-search',
@@ -22,7 +22,7 @@ export class UserSearchComponent implements OnInit {
     searchUser() {
     this.search.emit(
       this.searchText
-    );
+    ); 
   }
 
   constructor() { }

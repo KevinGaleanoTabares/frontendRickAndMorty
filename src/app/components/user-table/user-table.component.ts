@@ -23,26 +23,52 @@ export class UserTableComponent implements OnInit {
   @Output()
   viewUser = new EventEmitter<any>();
 
-     formatDate(date:string){
+  showDeleteModal = false;
+
+  selectedUserId = '';
+
+  formatDate(date: string) {
     return DateTime.fromISO(date).toFormat('dd/MM/yyyy');
   }
 
   filteredUsers() {
-      
-      if (!this.userSearch) {
-        return this.users;
-      }
-  
-      const text = this.userSearch.toLowerCase();
-  
-      return this.users.filter((u: any) =>
-        u.name.toLowerCase().includes(text) || u.email.toLowerCase().includes(text) || u.age.toString().includes(text)
-      );
+
+    if (!this.userSearch) {
+      return this.users;
     }
+
+    const text = this.userSearch.toLowerCase();
+
+    return this.users.filter((u: any) =>
+      u.name.toLowerCase().includes(text) || u.email.toLowerCase().includes(text) || u.age.toString().includes(text)
+    );
+  }
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  openModalDelete(id: string) {
+
+    this.selectedUserId = id;
+
+    this.showDeleteModal = true;
+  }
+
+  cancelShowModal() {
+
+    this.showDeleteModal = false
+
+  }
+
+
+  confirmDeleteUser() {
+
+    this.deleteUser.emit(this.selectedUserId);
+
+    this.showDeleteModal = false;
+
   }
 
 }

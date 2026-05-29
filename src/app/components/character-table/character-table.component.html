@@ -1,20 +1,21 @@
-<table class="w-full bg-white rounded shadow overflow-hidden text-sm">
+<div class="overflow-x-auto">
+    <table class="w-full bg-white rounded shadow overflow-hidden text-xs sm:text-sm">
         <thead class="bg-gray-200">
             <tr>
-                <th class="p-2">ID</th>
-                <th class="p-2">Name</th>
-                <th class="p-2">Status</th>
-                <th class="p-2">Species</th>
-                <th class="p-2">Gender</th>
+                <th class="p-2 text-left">ID</th>
+                <th class="p-2 text-left">Name</th>
+                <th class="p-2 text-left hidden sm:table-cell">Status</th>
+                <th class="p-2 text-left hidden md:table-cell">Species</th>
+                <th class="p-2 text-left hidden lg:table-cell">Gender</th>
             </tr>
         </thead>
 
         <tbody>
-            <tr *ngFor="let c of filteredCharacters()" class="hover:bg-gray-100 transition">
+            <tr *ngFor="let c of filteredCharacters()" class="hover:bg-gray-100 transition border-b">
 
                 <td class="p-2">{{ c.id }}</td>
                 <td class="p-2">{{ c.name }}</td>
-                <td class="p-2">
+                <td class="p-2 hidden sm:table-cell">
                     <span [ngClass]="{
                         'text-green-700 font-bold': c.status === 'Alive',
                         'text-red-700 font-bold': c.status === 'Dead',
@@ -23,9 +24,10 @@
                         {{ c.status }}
                     </span>
                 </td>
-                <td class="p-2">{{ c.species }}</td>
-                <td class="p-2">{{ c.gender }}</td>
+                <td class="p-2 hidden md:table-cell">{{ c.species }}</td>
+                <td class="p-2 hidden lg:table-cell">{{ c.gender }}</td>
 
         </tbody>
     </table>
+</div>
     
